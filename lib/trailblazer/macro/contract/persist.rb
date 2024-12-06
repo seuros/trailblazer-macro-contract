@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Trailblazer
   module Macro
     module Contract
@@ -8,14 +6,9 @@ module Trailblazer
         step = ->(ctx, **) { ctx[path].send(method) }
 
         task = Activity::Circuit::TaskAdapter.for_step(step)
-        id = if name == 'default'
-               "persist.#{method}"
-             else
-               "#{path}.persist.#{method}"
-             end
         {
           task: task,
-          id: id
+          id: "persist.#{method}"
         }
       end
     end
